@@ -88,6 +88,14 @@ const Profile = () => {
             />
           ))}
         </View>
+        <View className="mt-10 space-y-4">
+          <SettingsItem
+            icon={icons.logout}
+            title="Log out"
+            textStyle="text-danger"
+            onPress={() => console.log("Navigating to My Bookings")}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
