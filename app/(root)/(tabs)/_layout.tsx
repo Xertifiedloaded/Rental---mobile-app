@@ -57,15 +57,26 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="checkin"
         options={{
-          title: "Explore",
+          title: "Checkin",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcons title="Explore" icon={icons.search} focused={focused} />
+            <TabIcons title="Checkin" icon={icons.person} focused={focused} />
           ),
         }}
       />
+      <Tabs.Screen
+        name="feed"
+        options={{
+          title: "Feed",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcons title="feed" icon={icons.search} focused={focused} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="profile"
         options={{

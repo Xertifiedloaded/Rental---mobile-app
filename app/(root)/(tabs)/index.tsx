@@ -1,3 +1,4 @@
+import CardComponent from "@/components/card";
 import Search from "@/components/search";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
@@ -41,6 +42,7 @@ export default function HomePage() {
         </View>
       </View>
       <Search/>
+      <CardComponent/>
     </SafeAreaView>
   );
 }
