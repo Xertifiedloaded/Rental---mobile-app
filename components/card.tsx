@@ -11,68 +11,16 @@ import {
 } from "react-native";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
-
-interface Streak {
-  currentStreak: number;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  username: string | null;
-  isVerified: boolean;
-  isOwner: boolean;
-  profilePicture: string;
-  streaks: Streak[];
-}
-
-interface Post {
-  id: string;
-  imageUrl: string | null;
-  date: string | null;
-  content: string;
-  visibility: string;
-  createdAt: string;
-  userId: string;
-  likes: any[];
-  comments: any[];
-  user: User;
-  likeCount: number;
-  commentCount: number;
-  currentStreak: number;
-}
+import { useFetchPosts } from "@/hooks/useFetch";
+import { Link } from "expo-router";
 
 export default function CardComponent() {
-  const [posts, setPosts] = useState<Post[]>([]);
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<{ posts: Post[] }>(
-          "https://daily-check-in.com.ng/api/post/all"
-        );
-
-        // console.log(response.data);
-        if (response.data?.posts && Array.isArray(response.data.posts)) {
-          setPosts(response.data.posts);
-        } else {
-          setPosts([]);
-        }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        setError("Failed to load posts");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { loading, error, posts } = useFetchPosts(
+    "https://daily-check-in.com.ng/api/post/all"
+  );
 
   const truncateContent = (content: string): string => {
     const length = 100;
@@ -110,11 +58,11 @@ export default function CardComponent() {
 
   return (
     <SafeAreaView className=" h-full bg-gray-100">
-      <ScrollView 
+      <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 20
+          paddingBottom: 20,
         }}
       >
         {posts.map((post) => (
@@ -149,7 +97,7 @@ export default function CardComponent() {
             </View>
 
             <Text className="text-base text-gray-700 mb-3">
-              {post.content}
+              <Link href={`/checkins/${post?.user?.id}`}> {post.content}</Link>
             </Text>
 
             {post.imageUrl && (
